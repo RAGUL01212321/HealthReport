@@ -1,0 +1,11 @@
+# Model Requirements
+Transformers
+Huggingface
+torch
+nltk
+pillow
+pytesseract
+tesseract
+cv2
+
+# Other Backend Requirements
