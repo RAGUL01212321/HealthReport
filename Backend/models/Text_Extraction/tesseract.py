@@ -1,6 +1,6 @@
 import cv2
 import pytesseract
-# Load image
+
 
 pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 img = cv2.imread("Data\sample\image.png")
