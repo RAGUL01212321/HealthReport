@@ -13,7 +13,7 @@ gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 threshold_img = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
 # Pass the image through pytesseract
 text = pytesseract.image_to_string(threshold_img)
-
+#change
 data={
     "filename" : img_path,
     "extracted_text" : text
