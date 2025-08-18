@@ -5,8 +5,6 @@ import json
 json_path="Data\Mid_Process\extracted_text.json"
 img_path = "Data/sample/image.png"
 
-
-pytesseract.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 img = cv2.imread(img_path)
 # Convert image to grayscale
 gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
