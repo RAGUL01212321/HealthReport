@@ -86,7 +86,7 @@ print(results)
 trainer.save_model("Backend/models/Classification/finetune_classifier/Output_Model/bert-medical-abstracts")
 tokenizer.save_pretrained("Backend/models/Classification/finetune_classifier/Output_Model/bert-medical-abstracts")
 
-#---------------------------------------------------------------------------------------------#
+#-----------------------------------Visualization-----------------------------------------------#
 
 def plot_metrics(trainer, metric="loss"):
     """
