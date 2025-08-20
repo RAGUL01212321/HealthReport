@@ -12,6 +12,7 @@ datasets
 evaluate
 scikit-learn
 transformers[torch]
+matplotlib
 
 # Optional: If you use GPU, install CUDA compatible PyTorch manually
 # torch --index-url https://download.pytorch.org/whl/cu121
