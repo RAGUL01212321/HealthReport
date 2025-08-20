@@ -8,10 +8,9 @@ opencv-python
 pytesseract
 pillow
 pandas
-json
 datasets
 evaluate
-sklearn
+scikit-learn
 transformers[torch]
 
 # Optional: If you use GPU, install CUDA compatible PyTorch manually

@@ -213,3 +213,4 @@ __marimo__/
 # Files
 Dump/
 wenv/
+Backend/models/Classification/finetune_classifier/Output_Model/

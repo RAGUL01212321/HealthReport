@@ -1,20 +1,25 @@
 import torch
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer
-from transformers import TrainingArguments
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
 from datasets import load_dataset
 import evaluate
 import numpy as np
 
+if torch.cuda.is_available():
+    print("CUDA is available")
+    print(torch.cuda.get_device_name(0))
+else:
+    print("No CUDA") 
+
+#---------------------------------------------------------------------------------------------#
 dataset = load_dataset("TimSchopf/medical_abstracts")
-
-# Inspect one sample
-print(dataset["train"][0])
-
 model_name = "distilbert-base-uncased"
 tokenizer = AutoTokenizer.from_pretrained(model_name)
+num_labels = 5
+model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
+#---------------------------------------------------------------------------------------------#
 
 def preprocess(batch):
-    # Shift labels from 1..5 → 0..4
+    # Convert condition_label to zero-based index
     labels = []
     for label in batch["condition_label"]:
         labels.append(label - 1)
@@ -35,10 +40,6 @@ def preprocess(batch):
     return tokenized
 
 tokenized = dataset.map(preprocess, batched=True)
-
-num_labels = 5
-model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=num_labels)
-
 accuracy = evaluate.load("accuracy")
 f1 = evaluate.load("f1")
 
@@ -50,19 +51,17 @@ def compute_metrics(eval_pred):
         "f1": f1.compute(predictions=preds, references=labels, average="weighted")["f1"],
     }
 
-from transformers import TrainingArguments
-
 training_args = TrainingArguments(
-    output_dir="./results",
+    output_dir="Backend/models/Classification/finetune_classifier/Output_Model/results",
     num_train_epochs=3,
     per_device_train_batch_size=16,
     per_device_eval_batch_size=16,
     warmup_steps=500,
     weight_decay=0.01,
-    logging_dir="./logs",
+    logging_dir="Backend/models/Classification/finetune_classifier/Output_Model/logs",
     logging_steps=10,
-    eval_strategy="steps",  # <- replace
-    eval_steps=500,               # <- how often you want eval
+    eval_strategy="steps",
+    eval_steps=500,
     save_strategy="steps",
     save_steps=500
 )
@@ -81,5 +80,5 @@ trainer.train()
 results = trainer.evaluate()
 print(results)
 
-trainer.save_model("./bert-medical-abstracts")
-tokenizer.save_pretrained("./bert-medical-abstracts")
+trainer.save_model("Backend/models/Classification/finetune_classifier/Output_Model/bert-medical-abstracts")
+tokenizer.save_pretrained("Backend/models/Classification/finetune_classifier/Output_Model/bert-medical-abstracts")
